@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5433"
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=
+      - POSTGRES_HOST=
+    depends_on:
+      - db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  db:
+    image: postgres:13
+    restart: always
+    ports:
+      - '5433:5433'
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
